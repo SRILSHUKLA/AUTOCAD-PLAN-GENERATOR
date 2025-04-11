@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floor Plan to DXF Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background-color: #121212;
+            color: #ffffff;
+            height: 100vh;
+        }
+        
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            perspective: 1000px;
+        }
+        
+        .card {
+            background: rgba(35, 35, 45, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            transform: rotateX(5deg);
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover {
+            transform: rotateX(0deg) translateY(-10px);
+        }
+        
+        h1 {
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #5ee6d0;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px rgba(94, 230, 208, 0.5);
+            transform: translateZ(30px);
+        }
+        
+        .subtitle {
+            color: #aaa;
+            margin-bottom: 2rem;
+            transform: translateZ(20px);
+        }
+        
+        .file-upload {
+            position: relative;
+            margin-bottom: 2rem;
+            transform: translateZ(25px);
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #5ee6d0;
+            border-radius: 16px;
+            padding: 2rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(94, 230, 208, 0.1);
+        }
+        
+        .file-upload-label:hover {
+            border-color: #ffffff;
+            background: rgba(94, 230, 208, 0.15);
+            transform: scale(1.02);
+        }
+        
+        .file-upload-label svg {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 1rem;
+            color: #5ee6d0;
+        }
+        
+        .file-upload-label p {
+            color: #ffffff;
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .convert-btn {
+            background: linear-gradient(135deg, #5ee6d0, #36a18b);
+            color: #121212;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateZ(35px);
+            box-shadow: 0 10px 20px rgba(94, 230, 208, 0.3);
+            width: 100%;
+            max-width: 250px;
+        }
+        
+        .convert-btn:hover {
+            transform: translateZ(35px) translateY(-5px);
+            box-shadow: 0 15px 25px rgba(94, 230, 208, 0.4);
+        }
+        
+        .file-name {
+            margin-top: 1rem;
+            color: #5ee6d0;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        .floating-blueprint {
+            position: absolute;
+            width: 200px;
+            height: 150px;
+            background: rgba(94, 230, 208, 0.1);
+            border: 1px solid rgba(94, 230, 208, 0.3);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        
+        .floating-blueprint:nth-child(1) {
+            top: 15%;
+            left: 10%;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .floating-blueprint:nth-child(2) {
+            bottom: 20%;
+            right: 15%;
+            animation: float 10s infinite ease-in-out 1s;
+        }
+        
+        .floating-blueprint:nth-child(3) {
+            top: 60%;
+            left: 15%;
+            animation: float 9s infinite ease-in-out 2s;
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                padding: 2rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .floating-blueprint {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="floating-blueprint"></div>
+    <div class="floating-blueprint"></div>
+    <div class="floating-blueprint"></div>
+    
+    <div class="main-container">
+        <div class="card">
+            <h1>AutoPlan AI</h1>
+            <p class="subtitle">Convert your architectural floor plans into editable CAD files</p>
+            
+            <form method="POST" enctype="multipart/form-data">
+                <div class="file-upload">
+                    <label class="file-upload-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <p>Drag & drop your floor plan or click to browse</p>
+                        <span class="file-name" id="file-name"></span>
+                    </label>
+                    <input type="file" name="image" accept="image/*" id="file-input" required>
+                </div>
+                
+                <button type="submit" class="convert-btn">Upload & Convert</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Handle file selection
+        const fileInput = document.getElementById('file-input');
+        const fileName = document.getElementById('file-name');
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileName.textContent = e.target.files[0].name;
+                fileName.style.display = 'block';
+                
+                // Add animation to the button
+                gsap.to('.convert-btn', {
+                    scale: 1.05,
+                    duration: 0.3,
+                    repeat: 1,
+                    yoyo: true
+                });
+            }
+        });
+        
+        // 3D background with Three.js
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+        
+        // Add grid lines to represent blueprints
+        const gridHelper = new THREE.GridHelper(100, 50, 0x5ee6d0, 0x36a18b);
+        scene.add(gridHelper);
+        
+        // Add some floating particles
+        const particles = new THREE.Group();
+        scene.add(particles);
+        
+        for (let i = 0; i < 100; i++) {
+            const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x5ee6d0, 
+                transparent: true,
+                opacity: Math.random() * 0.5 + 0.1
+            });
+            const particle = new THREE.Mesh(geometry, material);
+            
+            particle.position.x = Math.random() * 40 - 20;
+            particle.position.y = Math.random() * 40 - 20;
+            particle.position.z = Math.random() * 40 - 20;
+            
+            particle.userData = {
+                vx: Math.random() * 0.02 - 0.01,
+                vy: Math.random() * 0.02 - 0.01,
+                vz: Math.random() * 0.02 - 0.01
+            };
+            
+            particles.add(particle);
+        }
+        
+        // Position camera
+        camera.position.z = 30;
+        camera.position.y = 15;
+        camera.lookAt(0, 0, 0);
+        
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Rotate grid slowly
+            gridHelper.rotation.y += 0.001;
+            
+            // Animate particles
+            particles.children.forEach(particle => {
+                particle.position.x += particle.userData.vx;
+                particle.position.y += particle.userData.vy;
+                particle.position.z += particle.userData.vz;
+                
+                // If particle goes too far, reset its position
+                if (Math.abs(particle.position.x) > 30 || 
+                    Math.abs(particle.position.y) > 30 || 
+                    Math.abs(particle.position.z) > 30) {
+                    particle.position.x = Math.random() * 20 - 10;
+                    particle.position.y = Math.random() * 20 - 10;
+                    particle.position.z = Math.random() * 20 - 10;
+                }
+            });
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Interactive card movement
+        const card = document.querySelector('.card');
+        window.addEventListener('mousemove', (e) => {
+            if (window.innerWidth > 768) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+        });
+        
+        // Start animation
+        animate();
+    </script>
+</body>
+</html>

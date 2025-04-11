@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    background-color: #121212;
+    color: #ffffff;
+    height: 100vh;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    perspective: 1000px;
+}
+
+.card {
+    background: rgba(35, 35, 45, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 3rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform-style: preserve-3d;
+    transform: rotateX(5deg);
+    transition: transform 0.5s ease;
+}
+
+.card:hover {
+    transform: rotateX(0deg) translateY(-10px);
+}
+
+h1 {
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: #5ee6d0;
+    font-size: 2.5rem;
+    text-shadow: 0 0 15px rgba(94, 230, 208, 0.5);
+    transform: translateZ(30px);
+}
+
+.subtitle {
+    color: #aaa;
+    margin-bottom: 2rem;
+    transform: translateZ(20px);
+}
+
+.file-upload {
+    position: relative;
+    margin-bottom: 2rem;
+    transform: translateZ(25px);
+    transition: all 0.3s ease;
+}
+
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #5ee6d0;
+    border-radius: 16px;
+    padding: 2rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(94, 230, 208, 0.1);
+}
+
+.file-upload-label:hover {
+    border-color: #ffffff;
+    background: rgba(94, 230, 208, 0.15);
+    transform: scale(1.02);
+}
+
+.file-upload-label svg {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1rem;
+    color: #5ee6d0;
+}
+
+.file-upload-label p {
+    color: #ffffff;
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.convert-btn {
+    background: linear-gradient(135deg, #5ee6d0, #36a18b);
+    color: #121212;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform: translateZ(35px);
+    box-shadow: 0 10px 20px rgba(94, 230, 208, 0.3);
+    width: 100%;
+    max-width: 250px;
+}
+
+.convert-btn:hover {
+    transform: translateZ(35px) translateY(-5px);
+    box-shadow: 0 15px 25px rgba(94, 230, 208, 0.4);
+}
+
+.file-name {
+    margin-top: 1rem;
+    color: #5ee6d0;
+    font-size: 0.9rem;
+    display: none;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.floating-blueprint {
+    position: absolute;
+    width: 200px;
+    height: 150px;
+    background: rgba(94, 230, 208, 0.1);
+    border: 1px solid rgba(94, 230, 208, 0.3);
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.floating-blueprint:nth-child(1) {
+    top: 15%;
+    left: 10%;
+    animation: float 8s infinite ease-in-out;
+}
+
+.floating-blueprint:nth-child(2) {
+    bottom: 20%;
+    right: 15%;
+    animation: float 10s infinite ease-in-out 1s;
+}
+
+.floating-blueprint:nth-child(3) {
+    top: 60%;
+    left: 15%;
+    animation: float 9s infinite ease-in-out 2s;
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 2rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .floating-blueprint {
+        display: none;
+    }
+}

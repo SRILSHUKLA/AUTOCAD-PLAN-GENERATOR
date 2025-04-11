@@ -1,0 +1,7 @@
+# Ignore Python bytecode and virtual envs
+floorplan_app/__pycache__/
+floorplan_app/venv/
+
+# Ignore app output directories
+floorplan_app/outputs/
+floorplan_app/uploads/
