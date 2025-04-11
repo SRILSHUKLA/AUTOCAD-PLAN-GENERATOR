@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -194,6 +195,201 @@
                 display: none;
             }
         }
+
+        /* Add this to your CSS file */
+        .social-icons {
+            position: absolute;
+            bottom: 20px;          /* Distance from bottom */
+            left: 0;               /* Start from left edge */
+            right: 0;              /* Extend to right edge */
+            display: flex;
+            justify-content: center; /* Center icons horizontally */
+            align-items: center;    /* Vertically center icons */
+            padding: 10px 0;       /* Top/bottom padding */
+        }
+
+        /* Style for individual icon containers */
+        .social-icon {
+            display: inline-block;  /* Make sure each icon is a block */
+            margin: 0 15px;         /* Add horizontal spacing between icons */
+            height: 24px;           /* Fixed height for icons */
+            width: 24px;            /* Fixed width for icons */
+            outline: none;
+            border: none;
+            text-decoration: none;
+        }
+
+        /* Optional: Style for the icon itself */
+        .social-icon i, 
+        .social-icon img,
+        .social-icon svg {
+            font-size: 24px;
+            color: #7ADFD0;        /* Match your teal accent color */
+            transition: opacity 0.3s;
+            display: block;        /* Ensure the icon takes the full space */
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Hover effect */
+        .social-icon:hover {
+            opacity: 0.8;
+        }
+
+        .github-icon {
+             margin-right: 30px; /* Add more space between icons */
+        }
+
+        .linkedin-icon {
+             margin-left: 30px;
+        }
+
+
+        /* Add this to your existing <style> section */
+        .side-panel {
+        position: fixed;
+        height: 100vh;
+        width: 300px;
+        background: rgba(35, 35, 45, 0.9);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(94, 230, 208, 0.2);
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 100;
+        top: 0;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .left-panel {
+        left: 0;
+        transform: translateX(-270px);
+        border-radius: 0 16px 16px 0;
+        }
+
+        .right-panel {
+        right: 0;
+        transform: translateX(270px);
+        border-radius: 16px 0 0 16px;
+        }
+
+        .panel-content {
+        padding: 2rem;
+        color: #ffffff;
+        height: 100%;
+        overflow-y: auto;
+        }
+
+        .panel-content h2 {
+        color: #5ee6d0;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(94, 230, 208, 0.3);
+        padding-bottom: 0.5rem;
+        }
+
+        .panel-content ul,
+        .panel-content ol {
+        padding-left: 1.5rem;
+        }
+
+        .panel-content li {
+        margin-bottom: 1rem;
+        line-height: 1.5;
+        }
+
+        .panel-tab {
+        position: absolute;
+        top: 50%;
+        width: 30px;
+        height: 120px;
+        background: #5ee6d0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .left-panel .panel-tab {
+        right: 0;
+        border-radius: 0 8px 8px 0;
+        transform: translateY(-50%);
+        }
+
+        .right-panel .panel-tab {
+        left: 0;
+        border-radius: 8px 0 0 8px;
+        transform: translateY(-50%);
+        }
+
+        .panel-tab span {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        color: #121212;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        }
+
+        .side-panel:hover {
+        transform: translateX(0);
+        }
+
+        /* Remove blue highlights from all interactive elements */
+        a, button, .panel-tab, .social-icon, 
+        .social-icon i, .file-upload-label {
+        text-decoration: none;
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+        }
+
+        a:focus, button:focus, .panel-tab:focus, 
+        .social-icon:focus, .file-upload-label:focus {
+        outline: none;
+        border: none;
+        }
+
+        /* Fix social icons positioning */
+        .social-icons {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 50;
+        }
+
+        .social-icon {
+        background: rgba(35, 35, 45, 0.8);
+        border-radius: 50%;
+        padding: 12px;
+        margin: 0 15px;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid rgba(94, 230, 208, 0.2);
+        transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+        transform: translateY(-5px);
+        background: rgba(94, 230, 208, 0.2);
+        }
+
+        .social-icon i {
+        font-size: 24px;
+        color: #5ee6d0;
+        }
+
+        
+
+       
+
+   
     </style>
 </head>
 <body>
@@ -223,6 +419,48 @@
                 <button type="submit" class="convert-btn">Upload & Convert</button>
             </form>
         </div>
+        <div class="footer">
+            <div class="social-icons">
+                <a href="https://github.com/SRILSHUKLA/AUTOCAD-PLAN-GENERATOR/tree/main" class="social-icon github-icon">
+                  <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/yourusername" class="social-icon linkedin-icon">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+              </div>
+        </div>
+
+
+    <div class="side-panel left-panel">
+        <div class="panel-content">
+        <h2>Features</h2>
+        <ul>
+            <li>Convert floor plans to DXF</li>
+            <li>Automatic wall detection</li>
+            <li>Multiple file formats supported</li>
+            <li>Quick processing time</li>
+            <li>High precision output</li>
+        </ul>
+        </div>
+        <div class="panel-tab">
+        <span>Features</span>
+        </div>
+    </div>
+    
+    <div class="side-panel right-panel">
+        <div class="panel-content">
+        <h2>Working</h2>
+        <ol>
+            <li>Upload your floor plan image</li>
+            <li>Our AI processes the design</li>
+            <li>Get your CAD file within seconds</li>
+            <li>Edit in your favorite CAD software</li>
+        </ol>
+        </div>
+        <div class="panel-tab">
+        <span>Working</span>
+        </div>
+    </div>
     </div>
 
     <script>
@@ -335,6 +573,45 @@
         
         // Start animation
         animate();
+
+
+        // Drawer panel interactions
+    const leftPanel = document.querySelector('.left-panel');
+    const rightPanel = document.querySelector('.right-panel');
+
+    leftPanel.addEventListener('click', (e) => {
+        if (e.target.closest('.panel-tab')) {
+            leftPanel.classList.toggle('open');
+            
+            if (leftPanel.classList.contains('open')) {
+                leftPanel.style.transform = 'translateX(0)';
+            } else {
+                leftPanel.style.transform = 'translateX(-270px)';
+            }
+        }
+    });
+
+    rightPanel.addEventListener('click', (e) => {
+        if (e.target.closest('.panel-tab')) {
+            rightPanel.classList.toggle('open');
+            
+            if (rightPanel.classList.contains('open')) {
+                rightPanel.style.transform = 'translateX(0)';
+            } else {
+                rightPanel.style.transform = 'translateX(270px)';
+            }
+        }
+    });
+
+    // Close panels when clicking away
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.side-panel') && !e.target.closest('.panel-tab')) {
+            leftPanel.classList.remove('open');
+            rightPanel.classList.remove('open');
+            leftPanel.style.transform = 'translateX(-270px)';
+            rightPanel.style.transform = 'translateX(270px)';
+        }
+    });
     </script>
 </body>
 </html>
