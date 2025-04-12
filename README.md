@@ -1,5 +1,6 @@
 # DraftEase 🏗️
-![DraftEase Banner](https://github.com/user-attachments/assets/f6b2733c-1489-4320-8544-e1a41e635500)
+![image](https://github.com/user-attachments/assets/44b2aa51-38da-48ad-8b8a-8aeb9a9d45d4)
+
 
 ## Overview
 
