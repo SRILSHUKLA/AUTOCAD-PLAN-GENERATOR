@@ -56,6 +56,5 @@ To run DraftEase locally:
 ```bash
 git clone https://github.com/SRILSHUKLA/AUTOCAD-PLAN-GENERATOR.git
 cd AUTOCAD-PLAN-GENERATOR
-pip install -r requirements.txt
 python app.py
 
