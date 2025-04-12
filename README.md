@@ -18,8 +18,17 @@
 
 This project utilizes floor plan samples collected by Cubicasa5K dataset for development and testing.
 Cubicasa5K is a high-quality floorplan dataset provided for research purposes.
+The CubiCasa5K dataset was introduced in the following paper:
+
+"CubiCasa5k: A Dataset and an Improved Multi-Task Model for Floorplan Image Analysis"
+P. Renevey, O. Loosli, M. R. Oswald, and R. G. Cavallaro
+International Conference on Pattern Recognition (ICPR), 2020.
+
 You can download the cubicasa5k dataset from kaggle using this link:
 https://www.kaggle.com/datasets/qmarva/cubicasa5k
+
+License for the dataset:
+https://creativecommons.org/licenses/by-nc/4.0/
 
 ## Technologies Used
 
