@@ -37,12 +37,17 @@ https://creativecommons.org/licenses/by-nc/4.0/
 - OpenCV and PIL for image processing
 - DXF writing using `ezdxf` or custom tracing logic
 
-## How It Works
+## 🔧 How It Works  
+### 1. Uploading & Converting Floor Plan Images  
+1. **Upload** → Select a clean floor plan image (PNG, JPG).  
+2. **Trace** → The backend processes the image and extracts architectural outlines.  
+3. **Convert** → The traced shapes are converted into DXF file elements.  
+4. **Download** → Instantly download the DXF for editing in AutoCAD or similar CAD software.  
 
-1. **Upload**: Select a clean floor plan image (PNG, JPG)
-2. **Trace**: The backend processes the image and traces architectural outlines
-3. **Convert**: The traced shapes are converted into DXF file elements
-4. **Download**: Instantly download the DXF for editing in AutoCAD or similar software
+### 2. Generating Custom Floor Plans  
+1. **Specify** → Enter room types, dimensions, and layout preferences.  
+2. **Generate** → Our model creates a floor plan matching your requirements.  
+3. **Download** → Export the auto-generated DXF file to refine in AutoCAD.
 
 ## Installation
 
