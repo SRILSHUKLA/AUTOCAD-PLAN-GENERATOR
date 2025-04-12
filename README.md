@@ -1,91 +1,38 @@
-# AutoPlan AI
-![image](https://github.com/user-attachments/assets/f6b2733c-1489-4320-8544-e1a41e635500)
+# DraftEase 🏗️
+![DraftEase Banner](https://github.com/user-attachments/assets/f6b2733c-1489-4320-8544-e1a41e635500)
 
 ## Overview
 
-AutoPlan AI is a web application that converts architectural floor plans into editable CAD files (DXF format). Using advanced AI technology, it automatically detects walls, doors, windows, and other architectural elements from uploaded floor plan images and generates precise CAD files that can be edited in any CAD software.
+**DraftEase** is a web-based tool that converts architectural floor plan images into editable CAD files (DXF format). Instead of relying on AI, DraftEase uses a custom algorithmic approach to trace architectural elements such as walls and rooms from clear floor plan images, making the output reliable and lightweight.
 
 ## Features
 
-- **Instant Floor Plan Conversion**: Transform images of floor plans into editable CAD files
-- **AI-Powered Detection**: Automatically recognizes walls, doors, windows, and other architectural elements
-- **DXF Output Format**: Industry-standard output compatible with all CAD software
-- **User-Friendly Interface**: Beautiful and intuitive design with interactive elements
-- **Responsive Design**: Works on desktop and mobile devices
+- **Image-to-CAD Conversion**: Upload floor plan images and convert them to DXF format
+- **Algorithmic Tracing Engine**: Detects structure outlines using traditional computer vision techniques
+- **Fast and Lightweight**: No heavy AI models, runs efficiently even on basic setups
+- **Editable CAD Output**: Generated DXF files are compatible with all major CAD software
+- **Intuitive UI**: Drag-and-drop upload and instant download of output files
 
 ## Technologies Used
 
+- Python (Flask)
 - HTML5, CSS3, JavaScript
-- Three.js for 3D background animation
-- GSAP for smooth animations
-- Font Awesome for icons
+- OpenCV and PIL for image processing
+- DXF writing using `ezdxf` or custom tracing logic
 
 ## How It Works
 
-1. **Upload**: Drag and drop or browse to select your floor plan image
-2. **Processing**: Our AI analyzes the image to detect architectural elements
-3. **Download**: Receive your DXF file ready for use in your preferred CAD software
-4. **Edit**: Open the file in AutoCAD, LibreCAD, or any other CAD program to make adjustments
+1. **Upload**: Select a clean floor plan image (PNG, JPG)
+2. **Trace**: The backend processes the image and traces architectural outlines
+3. **Convert**: The traced shapes are converted into DXF file elements
+4. **Download**: Instantly download the DXF for editing in AutoCAD or similar software
 
 ## Installation
 
-No installation required! AutoPlan AI is a web-based application accessible through any modern browser.
+To run DraftEase locally:
 
-If you want to run the project locally:
-
-1. Clone this repository:
-   ```
-   git clone https://github.com/SRILSHUKLA/AUTOCAD-PLAN-GENERATOR.git
-   ```
-
-2. Navigate to the project directory:
-   ```
-   cd AUTOCAD-PLAN-GENERATOR
-   ```
-
-3. Open `index.html` in your browser.
-
-## Usage
-
-1. Visit the website
-2. Upload your floor plan image (PNG, JPG, or PDF)
-3. Wait for the AI to process your image
-4. Download the resulting DXF file
-
-## Limitations
-
-- Best results are achieved with clear, high-resolution floor plan images
-- Hand-drawn plans may have lower accuracy than digital plans
-- Complex curved elements might require manual adjustments after conversion
-
-## Future Enhancements
-
-- Support for additional output formats (SVG, PDF)
-- Multi-floor processing
-- Custom element tagging
-- Dimension detection and scaling
-- 3D model generation
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contact
-
-- GitHub: [https://github.com/SRILSHUKLA](https://github.com/SRILSHUKLA)
-- LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/yourusername)
-
-## Acknowledgments
-
-- Thanks to all contributors who have helped shape this project
-- Special thanks to the open-source community for providing the tools and libraries used in this project
+```bash
+git clone https://github.com/SRILSHUKLA/AUTOCAD-PLAN-GENERATOR.git
+cd AUTOCAD-PLAN-GENERATOR
+pip install -r requirements.txt
+python app.py
