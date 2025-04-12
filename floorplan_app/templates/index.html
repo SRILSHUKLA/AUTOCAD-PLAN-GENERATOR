@@ -702,15 +702,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
         
-        // Interactive card movement
-        const card = document.querySelector('.card');
-        window.addEventListener('mousemove', (e) => {
-            if (window.innerWidth > 768) {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            }
-        });
+        // REMOVED: Interactive card movement mousemove event listener
         
         // Start animation
         animate();
@@ -893,16 +885,92 @@
                 console.error('Error:', error);
                 showAlert('An error occurred while generating the floor plan', 'error');
             } finally {
+                // loading spinner handling (continuing from where the code was cut off)
                 document.getElementById('loading-spinner').style.display = 'none';
             }
         });
         
-        // File upload form submit handler
+        // File upload handling
+        const fileInput = document.getElementById('file-input');
+        const fileNameDisplay = document.getElementById('file-name');
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileNameDisplay.textContent = e.target.files[0].name;
+                fileNameDisplay.style.display = 'block';
+                
+                // Animate the file name
+                gsap.from(fileNameDisplay, {
+                    y: -10,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            }
+        });
+        
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        // Highlight drop area when item is dragged over it
+        const fileUploadLabel = document.querySelector('.file-upload-label');
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileUploadLabel.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileUploadLabel.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            fileUploadLabel.classList.add('highlighted');
+            fileUploadLabel.style.borderColor = '#ffffff';
+            fileUploadLabel.style.background = 'rgba(94, 230, 208, 0.2)';
+        }
+        
+        function unhighlight() {
+            fileUploadLabel.classList.remove('highlighted');
+            fileUploadLabel.style.borderColor = '#5ee6d0';
+            fileUploadLabel.style.background = 'rgba(94, 230, 208, 0.1)';
+        }
+        
+        // Handle dropped files
+        fileUploadLabel.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                fileInput.files = files;
+                fileNameDisplay.textContent = files[0].name;
+                fileNameDisplay.style.display = 'block';
+                
+                // Animate the file name
+                gsap.from(fileNameDisplay, {
+                    y: -10,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            }
+        }
+        
+        // Handle form submission for file upload
         document.getElementById('upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const fileInput = document.getElementById('file-input');
-            if (!fileInput.files.length) {
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
                 showAlert('Please select a file to upload', 'error');
                 return;
             }
@@ -915,7 +983,7 @@
             document.getElementById('result-container').style.display = 'none';
             
             try {
-                const response = await fetch('/upload', {
+                const response = await fetch('/process_image', {
                     method: 'POST',
                     body: formData
                 });
@@ -923,79 +991,100 @@
                 const data = await response.json();
                 
                 if (response.status === 200 && data.success) {
-                    // For direct uploads, we don't have an image preview
-                    // Just show download button
+                    // Display result
+                    document.getElementById('result-image').src = data.image_preview;
                     document.getElementById('download-btn').href = data.dxf_path;
                     document.getElementById('result-container').style.display = 'flex';
-                    document.getElementById('result-image').style.display = 'none';
-                    showAlert('File converted successfully!', 'success');
+                    showAlert('Floor plan processed successfully!', 'success');
                 } else {
-                    showAlert(data.error || 'Failed to convert file', 'error');
+                    showAlert(data.error || 'Failed to process floor plan', 'error');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showAlert('An error occurred while processing the file', 'error');
+                showAlert('An error occurred while processing the floor plan', 'error');
             } finally {
                 document.getElementById('loading-spinner').style.display = 'none';
             }
         });
         
-        // Handle file selection for display
-        const fileInput = document.getElementById('file-input');
-        const fileName = document.getElementById('file-name');
-        
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                fileName.textContent = e.target.files[0].name;
-                fileName.style.display = 'block';
-                
-                // Add animation to the button
-                gsap.to('.btn', {
-                    scale: 1.05,
+        // Add hover animations for buttons
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                gsap.to(button, {
+                    y: -5,
+                    boxShadow: '0 15px 25px rgba(94, 230, 208, 0.4)',
                     duration: 0.3,
-                    repeat: 1,
-                    yoyo: true
+                    ease: "power2.out"
                 });
-            }
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                gsap.to(button, {
+                    y: 0,
+                    boxShadow: '0 10px 20px rgba(94, 230, 208, 0.3)',
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
         });
         
-        // Side panel interactions
-        const leftPanel = document.querySelector('.left-panel');
-        const rightPanel = document.querySelector('.right-panel');
-
-        leftPanel.addEventListener('click', (e) => {
-            if (e.target.closest('.panel-tab')) {
-                leftPanel.classList.toggle('open');
-                
-                if (leftPanel.classList.contains('open')) {
-                    leftPanel.style.transform = 'translateX(0)';
-                } else {
-                    leftPanel.style.transform = 'translateX(-270px)';
-                }
-            }
+        // Add tooltip functionality
+        const createTooltip = (element, text) => {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = text;
+            tooltip.style.position = 'absolute';
+            tooltip.style.background = 'rgba(35, 35, 45, 0.9)';
+            tooltip.style.color = '#5ee6d0';
+            tooltip.style.padding = '0.5rem 1rem';
+            tooltip.style.borderRadius = '8px';
+            tooltip.style.fontSize = '0.8rem';
+            tooltip.style.zIndex = '1000';
+            tooltip.style.opacity = '0';
+            tooltip.style.transition = 'opacity 0.3s ease';
+            tooltip.style.pointerEvents = 'none';
+            tooltip.style.boxShadow = '0 5px 10px rgba(0, 0, 0, 0.2)';
+            tooltip.style.border = '1px solid rgba(94, 230, 208, 0.3)';
+            
+            document.body.appendChild(tooltip);
+            
+            element.addEventListener('mouseenter', () => {
+                const rect = element.getBoundingClientRect();
+                tooltip.style.left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2 + 'px';
+                tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+                tooltip.style.opacity = '1';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                tooltip.style.opacity = '0';
+            });
+        };
+        
+        // Add tooltips to social icons
+        createTooltip(document.querySelector('.github-icon'), 'View on GitHub');
+        createTooltip(document.querySelector('.linkedin-icon'), 'Connect on LinkedIn');
+        
+        // Initialize the app with animation
+        gsap.from('.card', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out"
         });
-
-        rightPanel.addEventListener('click', (e) => {
-            if (e.target.closest('.panel-tab')) {
-                rightPanel.classList.toggle('open');
-                
-                if (rightPanel.classList.contains('open')) {
-                    rightPanel.style.transform = 'translateX(0)';
-                } else {
-                    rightPanel.style.transform = 'translateX(270px)';
-                }
-            }
-        });
-
-        // Close panels when clicking away
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.side-panel') && !e.target.closest('.panel-tab')) {
-                leftPanel.classList.remove('open');
-                rightPanel.classList.remove('open');
-                leftPanel.style.transform = 'translateX(-270px)';
-                rightPanel.style.transform = 'translateX(270px)';
-            }
-        });
+        
+        // Service worker registration for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
