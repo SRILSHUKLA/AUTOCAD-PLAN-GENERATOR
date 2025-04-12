@@ -14,6 +14,12 @@
 - **Editable CAD Output**: Generated DXF files are compatible with all major CAD software
 - **Intuitive UI**: Drag-and-drop upload and instant download of output files
 
+##Dataset Attribution
+
+This project utilizes architectural samples inspired by the Cubicasa5K dataset for development and testing.
+Cubicasa5K is a high-quality floorplan dataset provided for research purposes.
+Please cite appropriately if you use this dataset in your work.
+
 ## Technologies Used
 
 - Python (Flask)
@@ -37,3 +43,4 @@ git clone https://github.com/SRILSHUKLA/AUTOCAD-PLAN-GENERATOR.git
 cd AUTOCAD-PLAN-GENERATOR
 pip install -r requirements.txt
 python app.py
+
