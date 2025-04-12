@@ -1,4 +1,5 @@
 # AutoPlan AI
+![image](https://github.com/user-attachments/assets/f6b2733c-1489-4320-8544-e1a41e635500)
 
 ## Overview
 
