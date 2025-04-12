@@ -14,11 +14,12 @@
 - **Editable CAD Output**: Generated DXF files are compatible with all major CAD software
 - **Intuitive UI**: Drag-and-drop upload and instant download of output files
 
-##Dataset Attribution
+## Dataset Attribution
 
-This project utilizes architectural samples inspired by the Cubicasa5K dataset for development and testing.
+This project utilizes floor plan samples collected by Cubicasa5K dataset for development and testing.
 Cubicasa5K is a high-quality floorplan dataset provided for research purposes.
-Please cite appropriately if you use this dataset in your work.
+You can download the cubicasa5k dataset from kaggle using this link:
+https://www.kaggle.com/datasets/qmarva/cubicasa5k
 
 ## Technologies Used
 
