@@ -21,6 +21,7 @@
             background-color: #121212;
             color: #ffffff;
             height: 100vh;
+            scroll-behavior: smooth;
         }
         
         #canvas-container {
@@ -358,7 +359,7 @@
         }
         
         @media (max-width: 768px) {
-            .card {
+            /* .card {
                 padding: 2rem;
             }
             
@@ -384,6 +385,18 @@
             
             .room-item {
                 grid-column: span 1;
+            } */
+            .side-panel {
+                height: 300px;
+                width: 250px;
+            }
+            
+            .left-panel {
+                transform: translate(-220px, -50%);
+            }
+            
+            .right-panel {
+                transform: translate(220px, -50%);
             }
         }
 
@@ -423,7 +436,7 @@
         }
 
         .side-panel {
-            position: fixed;
+            /* position: fixed;
             height: 100vh;
             width: 300px;
             background: rgba(35, 35, 45, 0.9);
@@ -433,19 +446,38 @@
             z-index: 100;
             top: 0;
             overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); */
+            position: fixed;
+            height: 400px; /* Fixed height instead of 100vh */
+            width: 300px;
+            background: rgba(35, 35, 45, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(94, 230, 208, 0.2);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
+            top: 50%;
+            transform: translateY(-50%); /* Center vertically */
+            overflow: hidden;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 8px; /* Smooth square shape */
         }
 
         .left-panel {
-            left: 0;
+            /* left: 0;
             transform: translateX(-270px);
-            border-radius: 0 16px 16px 0;
+            border-radius: 0 16px 16px 0; */
+            left: 0;
+            transform: translate(-270px, -50%);
+            border-radius: 0 8px 8px 0;
         }
 
         .right-panel {
-            right: 0;
+            /* right: 0;
             transform: translateX(270px);
-            border-radius: 16px 0 0 16px;
+            border-radius: 16px 0 0 16px; */
+            right: 0;
+            transform: translate(270px, -50%);
+            border-radius: 8px 0 0 8px;
         }
 
         .panel-content {
@@ -473,7 +505,7 @@
         }
 
         .panel-tab {
-            position: absolute;
+            /* position: absolute;
             top: 50%;
             width: 30px;
             height: 120px;
@@ -482,7 +514,18 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); */
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 100px; /* Smaller tab */
+            background: #5ee6d0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50%);
         }
 
         .left-panel .panel-tab {
@@ -507,9 +550,15 @@
             text-transform: uppercase;
         }
 
-        .side-panel:hover {
-            transform: translateX(0);
+        .left-panel:hover {
+            /* transform: translateX(0); */
+            transform: translate(0, -50%);
         }
+
+        .right-panel:hover{
+            transform: translate(0, -50%);
+        }
+
 
         a, button, .panel-tab, .social-icon, 
         .social-icon i, .file-upload-label {
@@ -538,8 +587,8 @@
             <p class="subtitle">Convert your architectural floor plans into editable CAD files</p>
             
             <div class="tabs">
-                <div class="tab active" data-tab="upload">Upload Plan</div>
                 <div class="tab" data-tab="generate">Generate Plan</div>
+                <div class="tab active" data-tab="upload">Upload Plan</div>
             </div>
             
             <div id="alert-container"></div>
@@ -567,9 +616,11 @@
                 </div>
                 
                 <button id="add-room-btn" class="add-room-btn">
-                    <i class="fas fa-plus"></i> Add Room
+                    <i class="fas fa-plus"></i> Add Room 
                 </button>
-                
+
+                <div style="width: 10px;"></div>
+
                 <button id="generate-btn" class="btn" style="margin-top: 1.5rem;">Generate Plan</button>
             </div>
             
@@ -582,7 +633,7 @@
         </div>
     </div>
     
-    <div class="side-panel left-panel">
+    <!-- <div class="side-panel left-panel">
         <div class="panel-content">
             <h2>Features</h2>
             <ul>
@@ -608,11 +659,45 @@
                 <li>Get your CAD file within seconds</li>
                 <li>Edit in your favorite CAD software</li>
             </ol>
+        </div> -->
+
+        <div class="side-panel left-panel">
+            <div class="panel-content">
+                <h2>Features</h2>
+                <ul>
+                    <li>Convert floor plans to DXF</li>
+                    <!-- <li></li> -->
+                    <li>Multiple file formats supported</li>
+                    <li>Quick processing time</li>
+                    <li>High precision output</li>
+                    <li>Easy and Intuitive to use</li>
+                </ul>
+            </div>
+            <div class="panel-tab">
+                <span>Features</span>
+            </div>
         </div>
+        
+        <div class="side-panel right-panel">
+            <div class="panel-content">
+                <h2>Working</h2>
+                <ul>
+                    <!-- <li>Upload your floor plan image or specify room requirements</li> -->
+                    <!-- <li></li> -->
+                    <li>Upload your image file</li>
+                    <li>Or let us create a floor plan for you</li>
+                    <li>Get your CAD file within seconds</li>
+                    <li>Edit in your favorite CAD software</li>
+                </ul>
+            </div>
+
         <div class="panel-tab">
             <span>Working</span>
         </div>
-    </div>
+    </div> 
+
+
+
     
     <div class="social-icons">
         <a href="https://github.com/SRILSHUKLA/AUTOCAD-PLAN-GENERATOR/tree/main" class="social-icon github-icon">
