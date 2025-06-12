@@ -1,0 +1,22 @@
+# Core libraries
+Pillow>=10.0.0,<11.0.0
+imageio>=2.30.0
+networkx>=3.2
+numpy>=1.26.0
+scipy>=1.11.0
+matplotlib>=3.8.0
+
+# Image processing
+scikit-image>=0.21.0
+opencv-python>=4.9.0.80
+
+# Drawing and SVG
+svgwrite>=1.4.3
+webcolors>=1.13
+
+# Graphs
+pygraphviz>=1.10
+
+# PyTorch for macOS (CPU-only)
+torch>=2.1.0
+torchvision>=0.16.0
