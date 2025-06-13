@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # DraftEase 🏗️
 ![image](https://github.com/user-attachments/assets/44b2aa51-38da-48ad-8b8a-8aeb9a9d45d4)
 
